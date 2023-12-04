@@ -1,6 +1,6 @@
 <?php 
 /*
- * Plugin Name: Kaspi Button
+ * Plugin Name: Simple Red Kaspi Button
  * Author: Zhaniya
  * Author URI: zhan883.kz
  */
@@ -56,7 +56,9 @@ add_action('admin_init', 'add_custom_settings');
 
 function enqueue_custom_scripts() {
     // Enqueue the external script
-    wp_enqueue_script('ks-wi-ext-script', 'https://kaspi.kz/kaspibutton/widget/ks-wi_ext.js', array(), '1.0', true);
+    wp_enqueue_script('ks-wi-ext-script', 'https://kaspi.kz/kaspibutton/widget/ks-wi_ext.js', array(), '1.0', false);
+
+    wp_enqueue_script('myplugin-script', plugins_url('script.js', __FILE__), array(), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
@@ -72,27 +74,14 @@ function display_custom_data_under_add_to_cart() {
     if (empty($product_sku)) {
         return; // Skip if SKU is not available
     }
-
-    
-
-
-     echo "
-    <div id='dynamic'></div>
-    <script>
-        (function (d, s, id) {
-            var js, kjs;
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://kaspi.kz/kaspibutton/widget/ks-wi_ext.js';
-            kjs = document.getElementsByTagName(s)[0];
-            kjs.parentNode.insertBefore(js, kjs);
-        }(document, 'script', 'KS-Widget'));
-
-        setTimeout(function () {
-            document.getElementById('dynamic').innerHTML = '<div class=\"ks-widget\" data-template=\"button\" data-merchant-sku=\"$product_sku\" data-merchant-code=\"$merchant_code\" data-city=\"$data_city\"></div>';
-            ksWidgetInitializer.reinit();
-        }, 1000);
-    </script>
+ echo "
+     
+<div class=\"ks-widget\" 
+data-template=\"button\" 
+data-merchant-sku=\"$product_sku\" 
+data-merchant-code=\"$merchant_code\"
+data-city=\"351010000\"
+data-style=\"mobile\"></div>
     ";
 }
 
